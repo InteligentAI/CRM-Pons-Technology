@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ponstechnology</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>CRM Ponstechnology</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="loadPage('crm-ponstechnology-formulario-clientes-completo.html')">Formulario de Clientes</a></li>
+                <li><a href="#" onclick="loadPage('crm-ponstechnology-lista-contactos-final.html')">Lista de Contactos</a></li>
+                <li><a href="#" onclick="loadPage('crm-ponstechnology-ventas-del-mes-final.html')">Ventas del Mes</a></li>
+                <li><a href="#" onclick="loadPage('crm-ponstechnology-tareas-dia-revisado.html')">Tareas del Día</a></li>
+                <li><a href="#" onclick="loadPage('crm-ponstechnology-tareas-semana-final-completo.html')">Tareas de la Semana</a></li>
+                <li><a href="#" onclick="loadPage('crm-llamadas-semana-mejorado.html')">Llamadas de la Semana</a></li>
+                <li><a href="#" onclick="loadPage('crm-ponstechnology-ideas-corregido.html')">Ideas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="content">
+        <!-- El contenido de las otras páginas se cargará aquí -->
+    </main>
+    <script src="js/script.js"></script>
+</body>
+</html>
