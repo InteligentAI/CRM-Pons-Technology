@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ponstechnology - Formulario de Clientes</title>
+    <style>
+        :root {
+            --naranja: #FF6600;
+            --negro: #000000;
+            --verde-manzana: #8DB600;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: var(--negro);
+        }
+        header {
+            background-color: var(--negro);
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: var(--naranja);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 1rem;
+            display: block;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--verde-manzana);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"],
+        select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        #num-lineas {
+            width: 100px;
+        }
+        #intereses {
+            height: 100px;
+        }
+        #intereses-seleccionados {
+            margin-top: 10px;
+        }
+        #intereses-seleccionados div {
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            margin: 5px 5px 5px 0;
+            border-radius: 3px;
+        }
+        button, .button {
+            background-color: var(--naranja);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        button:hover, .button:hover {
+            background-color: var(--verde-manzana);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CRM Ponstechnology</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" class="active">Formulario de Clientes</a></li>
+            <li><a href="#">Lista de Contactos</a></li>
+            <li><a href="#">Ventas del Mes</a></li>
+            <li><a href="#">Tareas de la Semana</a></li>
+            <li><a href="#">Ideas</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <form id="cliente-form">
+            <h2>Formulario de Clientes</h2>
+            
+            <div class="form-group">
+                <label for="upload-excel-pdf" class="button">Subir Excel o PDF</label>
+                <input type="file" id="upload-excel-pdf" accept=".xlsx, .xls, .pdf" style="display: none;">
+            </div>
+
+            <div class="form-group">
+                <label for="empresa">Empresa:</label>
+                <input type="text" id="empresa" name="empresa" required>
+            </div>
+
+            <div class="form-group">
+                <label for="persona-contacto">Persona de contacto:</label>
+                <input type="text" id="persona-contacto" name="persona-contacto" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono de contacto:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" required>
+            </div>
+
+            <div class="form-group">
+                <label for="poblacion">Población:</label>
+                <input type="text" id="poblacion" name="poblacion" required>
+            </div>
+
+            <div class="form-group">
+                <label for="provincia">Provincia:</label>
+                <input type="text" id="provincia" name="provincia" required>
+            </div>
+
+            <div class="form-group">
+                <label for="codigo-postal">Código postal:</label>
+                <input type="text" id="codigo-postal" name="codigo-postal" required>
+            </div>
+
+            <div class="form-group">
+                <label for="modo-contacto">Modo de contacto:</label>
+                <select id="modo-contacto" name="modo-contacto" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Visitas Conecta">Visitas Conecta</option>
+                    <option value="Visitas Marian">Visitas Marian</option>
+                    <option value="Rueda">Rueda</option>
+                    <option value="Referidos">Referidos</option>
+                    <option value="Otros Telemarketing">Otros Telemarketing</option>
+                    <option value="Base de Datos">Base de Datos</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="intereses">Intereses (selecciona múltiples):</label>
+                <select id="intereses" name="intereses" multiple>
+                    <option value="Telecomunicaciones">Telecomunicaciones</option>
+                    <option value="Fotovoltaica">Fotovoltaica</option>
+                    <option value="Energía">Energía</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                </select>
+                <div id="intereses-seleccionados"></div>
+            </div>
+
+            <div id="campos-telecomunicaciones" style="display: none;">
+                <div class="form-group">
+                    <label for="num-lineas">Número de líneas del cliente:</label>
+                    <input type="number" id="num-lineas" name="num-lineas">
+                </div>
+                <div class="form-group">
+                    <label for="compania-telefono">Compañía de teléfono actual:</label>
+                    <select id="compania-telefono" name="compania-telefono">
+                        <option value="">Seleccione una opción</option>
+                        <option value="Digi">Digi</option>
+                        <option value="Lowi">Lowi</option>
+                        <option value="Vodafone">Vodafone</option>
+                        <option value="Orange">Orange</option>
+                        <option value="Movistar">Movistar</option>
+                        <option value="RadiKable">RadiKable</option>
+                        <option value="Wiber">Wiber</option>
+                        <option value="Jazzel">Jazzel</option>
+                        <option value="O2">O2</option>
+                        <option value="Yoigo">Yoigo</option>
+                        <option value="Finetwork">Finetwork</option>
+                        <option value="Default">Default</option>
+                        <option value="Otra compañía">Otra compañía</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" name="observaciones" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="documentacion" class="button">Subir documentación importante</label>
+                <input type="file" id="documentacion" name="documentacion" accept=".pdf, .jpg, .png" style="display: none;">
+            </div>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const interesesSelect = document.getElementById('intereses');
+        const interesesSeleccionados = document.getElementById('intereses-seleccionados');
+        const camposTelecomunicaciones = document.getElementById('campos-telecomunicaciones');
+        const formulario = document.getElementById('cliente-form');
+        const uploadExcelPdf = document.getElementById('upload-excel-pdf');
+        const uploadDoc = document.getElementById('documentacion');
+
+        interesesSelect.addEventListener('change', function() {
+            interesesSeleccionados.innerHTML = '';
+            Array.from(this.selectedOptions).forEach(option => {
+                const div = document.createElement('div');
+                div.textContent = option.textContent;
+                interesesSeleccionados.appendChild(div);
+            });
+
+            if (Array.from(this.selectedOptions).some(option => option.value === 'Telecomunicaciones')) {
+                camposTelecomunicaciones.style.display = 'block';
+            } else {
+                camposTelecomunicaciones.style.display = 'none';
+            }
+        });
+
+        formulario.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aquí iría la lógica para guardar los datos del cliente
+            alert('Cliente guardado correctamente');
+            this.reset();
+            interesesSeleccionados.innerHTML = '';
+            camposTelecomunicaciones.style.display = 'none';
+        });
+
+        uploadExcelPdf.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Aquí iría la lógica para procesar el archivo
+                console.log('Archivo subido:', file.name);
+                // Luego, rellenar el formulario con los datos del archivo
+            }
+        });
+
+        uploadDoc.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                console.log('Documentación subida:', file.name);
+            }
+        });
+    });
+    </script>
+</body>
+</html>

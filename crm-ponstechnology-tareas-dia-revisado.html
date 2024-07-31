@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ponstechnology - Tareas del Día</title>
+    <style>
+        :root {
+            --naranja: #FF6600;
+            --negro: #000000;
+            --verde-manzana: #8DB600;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: var(--negro);
+        }
+        header {
+            background-color: var(--negro);
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: var(--naranja);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 1rem;
+            display: block;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--verde-manzana);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .date-selectors {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .date-selectors select, .date-selectors input {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .day-selector {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .day-button {
+            flex-grow: 1;
+            padding: 0.5rem;
+            background-color: var(--naranja);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .day-button:hover, .day-button.active {
+            background-color: var(--verde-manzana);
+        }
+        .tareas {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 1rem;
+        }
+        .tarea {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .hora {
+            width: 60px;
+            font-weight: bold;
+        }
+        .hora-completa {
+            font-size: 1.1em;
+            color: var(--negro);
+        }
+        .hora-media {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .tarea-input {
+            flex-grow: 1;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .add-task {
+            background-color: var(--verde-manzana);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .objetivos {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 1rem;
+        }
+        .objetivos h4 {
+            color: var(--verde-manzana);
+            margin-top: 0;
+        }
+        .objetivo-input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .button {
+            background-color: var(--naranja);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: var(--verde-manzana);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CRM Ponstechnology</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="formulario-clientes.html">Formulario de Clientes</a></li>
+            <li><a href="lista-contactos.html">Lista de Contactos</a></li>
+            <li><a href="ventas-del-mes.html">Ventas del Mes</a></li>
+            <li><a href="#" class="active">Tareas del Día</a></li>
+            <li><a href="ideas.html">Ideas</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h2>Tareas del Día</h2>
+        
+        <div class="date-selectors">
+            <select id="mes-selector">
+                <option value="0">Enero</option>
+                <option value="1">Febrero</option>
+                <option value="2">Marzo</option>
+                <option value="3">Abril</option>
+                <option value="4">Mayo</option>
+                <option value="5">Junio</option>
+                <option value="6">Julio</option>
+                <option value="7">Agosto</option>
+                <option value="8">Septiembre</option>
+                <option value="9">Octubre</option>
+                <option value="10">Noviembre</option>
+                <option value="11">Diciembre</option>
+            </select>
+            <input type="week" id="semana-selector">
+        </div>
+
+        <div class="day-selector" id="day-selector">
+            <!-- Los botones de día se generarán dinámicamente aquí -->
+        </div>
+        
+        <div class="tareas" id="tareas-container">
+            <!-- Las tareas se generarán dinámicamente aquí -->
+        </div>
+
+        <div class="objetivos">
+            <h4>Objetivos Principales del Día</h4>
+            <input type="text" class="objetivo-input" placeholder="Objetivo 1">
+            <input type="text" class="objetivo-input" placeholder="Objetivo 2">
+            <input type="text" class="objetivo-input" placeholder="Objetivo 3">
+        </div>
+
+        <button class="button" id="guardar-dia">Guardar Cambios</button>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mesSelector = document.getElementById('mes-selector');
+        const semanaSelector = document.getElementById('semana-selector');
+        const daySelector = document.getElementById('day-selector');
+        const tareasContainer = document.getElementById('tareas-container');
+        const guardarDiaButton = document.getElementById('guardar-dia');
+
+        const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+        function generarSelectorDias() {
+            daySelector.innerHTML = '';
+            diasSemana.forEach((dia, index) => {
+                const button = document.createElement('button');
+                button.textContent = dia;
+                button.className = 'day-button';
+                button.addEventListener('click', () => mostrarTareasDia(index));
+                daySelector.appendChild(button);
+            });
+        }
+
+        function generarHorario() {
+            let horario = [];
+            for (let hora = 5; hora <= 19; hora++) {
+                for (let minuto of ['00', '30']) {
+                    horario.push(`${hora.toString().padStart(2, '0')}:${minuto}`);
+                }
+            }
+            return horario;
+        }
+
+        function mostrarTareasDia(diaIndex) {
+            const horario = generarHorario();
+            tareasContainer.innerHTML = '';
+            horario.forEach(hora => {
+                const esHoraCompleta = hora.endsWith(':00');
+                const tareaHtml = `
+                    <div class="tarea">
+                        <span class="hora ${esHoraCompleta ? 'hora-completa' : 'hora-media'}">${hora}</span>
+                        <input type="text" class="tarea-input" placeholder="Agregar tarea">
+                        <button class="add-task">+</button>
+                    </div>
+                `;
+                tareasContainer.innerHTML += tareaHtml;
+            });
+
+            document.querySelectorAll('.day-button').forEach((btn, index) => {
+                btn.classList.toggle('active', index === diaIndex);
+            });
+        }
+
+        function actualizarSemana() {
+            const fechaSeleccionada = new Date(semanaSelector.value);
+            const primerDiaSemana = new Date(fechaSeleccionada.setDate(fechaSeleccionada.getDate() - fechaSeleccionada.getDay() + 1));
+            mostrarTareasDia(0); // Mostrar tareas del primer día de la semana por defecto
+        }
+
+        function inicializarEventListeners() {
+            mesSelector.addEventListener('change', function() {
+                const año = new Date().getFullYear();
+                const primerDiaMes = new Date(año, parseInt(this.value), 1);
+                semanaSelector.value = `${año}-W${getWeekNumber(primerDiaMes)}`;
+                actualizarSemana();
+            });
+
+            semanaSelector.addEventListener('change', actualizarSemana);
+
+            guardarDiaButton.addEventListener('click', function() {
+                const tareas = Array.from(tareasContainer.querySelectorAll('.tarea-input')).map(input => ({
+                    hora: input.previousElementSibling.textContent,
+                    tarea: input.value
+                }));
+                const objetivos = Array.from(document.querySelectorAll('.objetivo-input')).map(input => input.value);
+                console.log('Guardando cambios para el día');
+                console.log('Tareas:', tareas);
+                console.log('Objetivos:', objetivos);
+                // Aquí iría la lógica para guardar los cambios en el servidor
+                alert('Cambios guardados con éxito');
+            });
+
+            tareasContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-task')) {
+                    const tareaDiv = e.target.closest('.tarea');
+                    const horaSpan = tareaDiv.querySelector('.hora');
+                    const esHoraCompleta = horaSpan.textContent.endsWith(':00');
+                    const nuevaTareaHtml = `
+                        <div class="tarea">
+                            <span class="hora ${esHoraCompleta ? 'hora-completa' : 'hora-media'}">${horaSpan.textContent}</span>
+                            <input type="text" class="tarea-input" placeholder="Agregar tarea">
+                            <button class="add-task">+</button>
+                        </div>
+                    `;
+                    tareaDiv.insertAdjacentHTML('afterend', nuevaTareaHtml);
+                }
+            });
+        }
+
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+            return weekNo.toString().padStart(2, '0');
+        }
+
+        // Inicialización
+        const hoy = new Date();
+        const añoActual = hoy.getFullYear();
+        const mesActual = hoy.getMonth();
+        mesSelector.value = mesActual;
+        semanaSelector.value = `${añoActual}-W${getWeekNumber(hoy)}`;
+        generarSelectorDias();
+        actualizarSemana();
+        inicializarEventListeners();
+    });
+    </script>
+</body>
+</html>

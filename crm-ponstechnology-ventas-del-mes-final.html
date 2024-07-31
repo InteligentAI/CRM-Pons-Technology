@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ponstechnology - Ventas del Mes</title>
+    <style>
+        :root {
+            --naranja: #FF6600;
+            --negro: #000000;
+            --verde-manzana: #8DB600;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: var(--negro);
+        }
+        header {
+            background-color: var(--negro);
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: var(--naranja);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 1rem;
+            display: block;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--verde-manzana);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .month-selector, .section-buttons {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        #mes-seleccion {
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        .section-button {
+            background-color: var(--naranja);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .section-button.active {
+            background-color: var(--verde-manzana);
+        }
+        .ventas-seccion {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            padding: 1rem;
+        }
+        .ventas-seccion h3 {
+            color: var(--naranja);
+            border-bottom: 2px solid var(--naranja);
+            padding-bottom: 0.5rem;
+        }
+        .estado-venta {
+            margin-bottom: 1rem;
+        }
+        .estado-venta h4 {
+            color: var(--verde-manzana);
+            margin-bottom: 0.5rem;
+        }
+        .cliente-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cliente-info span {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        .cliente-actions select, .cliente-actions button {
+            margin-left: 0.5rem;
+        }
+        .resumen-mes {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        .total-comisiones, .objetivo-contador {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+        .objetivo-barra {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .objetivo-progreso {
+            background-color: var(--verde-manzana);
+            border-radius: 10px;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+        .actions {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .button {
+            background-color: var(--naranja);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0 0.5rem;
+        }
+        .button:hover {
+            background-color: var(--verde-manzana);
+        }
+        #upload-excel {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CRM Ponstechnology</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="formulario-clientes.html">Formulario de Clientes</a></li>
+            <li><a href="lista-contactos.html">Lista de Contactos</a></li>
+            <li><a href="#" class="active">Ventas del Mes</a></li>
+            <li><a href="#">Tareas de la Semana</a></li>
+            <li><a href="#">Ideas</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h2>Ventas del Mes</h2>
+        
+        <div class="month-selector">
+            <label for="mes-seleccion">Seleccionar Mes:</label>
+            <select id="mes-seleccion" name="mes-seleccion">
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+        </div>
+
+        <div class="section-buttons">
+            <!-- Los botones de sección se generarán dinámicamente aquí -->
+        </div>
+
+        <div id="ventas-container">
+            <!-- Las secciones de ventas se generarán dinámicamente aquí -->
+        </div>
+
+        <div class="resumen-mes">
+            <h3>Resumen del Mes</h3>
+            <div class="total-comisiones">Total Comisiones: <span id="total-comisiones">0€</span></div>
+            <div class="objetivo-contador">
+                Objetivo Restante: <span id="objetivo-restante">10.000€</span>
+                <div class="objetivo-barra">
+                    <div class="objetivo-progreso"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="#" id="descargar-excel" class="button">Descarga Excel de Ejemplo</a>
+            <label for="upload-excel" class="button">Sube Excel Completado</label>
+            <input type="file" id="upload-excel" accept=".xlsx, .xls">
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mesSeleccion = document.getElementById('mes-seleccion');
+        const sectionButtons = document.querySelector('.section-buttons');
+        const ventasContainer = document.getElementById('ventas-container');
+        const descargarExcel = document.getElementById('descargar-excel');
+        const uploadExcel = document.getElementById('upload-excel');
+
+        const intereses = ['Telecomunicaciones', 'Fotovoltaica', 'Energía', 'Marketing', 'Inteligencia Artificial'];
+        const estadosVenta = ['Clientes cerrados', 'Clientes muy posibles', 'Clientes posibles', 'Clientes probables', 'Clientes poco probables', 'Clientes perdidos'];
+
+        let totalComisiones = 0;
+        let objetivoInicial = 10000;
+        let objetivoRestante = objetivoInicial;
+
+        // Generar botones de sección
+        intereses.forEach(interes => {
+            const button = document.createElement('button');
+            button.textContent = interes;
+            button.className = 'section-button';
+            button.addEventListener('click', () => mostrarSeccion(interes));
+            sectionButtons.appendChild(button);
+        });
+
+        function mostrarSeccion(interes) {
+            document.querySelectorAll('.section-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.section-button:nth-child(${intereses.indexOf(interes) + 1})`).classList.add('active');
+            generarVentas(interes);
+        }
+
+        function generarVentas(interesSeleccionado) {
+            ventasContainer.innerHTML = '';
+            let seccionHtml = `
+                <div class="ventas-seccion">
+                    <h3>${interesSeleccionado}</h3>
+            `;
+            estadosVenta.forEach(estado => {
+                seccionHtml += `
+                    <div class="estado-venta" data-estado="${estado}">
+                        <h4>${estado}</h4>
+                        <div class="clientes-lista">
+                            <!-- Aquí se insertarían los datos reales -->
+                            <div class="cliente-item">
+                                <div class="cliente-info">
+                                    <span><strong>Contacto:</strong> Contacto Ejemplo</span>
+                                    <span><strong>Empresa:</strong> Empresa Ejemplo</span>
+                                    <span><strong>${interesSeleccionado === 'Telecomunicaciones' ? 'Número de líneas' : 'Cantidad de presupuesto'}:</strong> ${interesSeleccionado === 'Telecomunicaciones' ? '50' : '10000€'}</span>
+                                    <span><strong>Comercial:</strong> Comercial Ejemplo</span>
+                                    <span><strong>Fecha cierre:</strong> 31/12/2024</span>
+                                    <span><strong>Comisión:</strong> 500€</span>
+                                </div>
+                                <div class="cliente-actions">
+                                    <select class="mover-cliente">
+                                        <option value="">Mover a...</option>
+                                        ${estadosVenta.map(e => `<option value="${e}">${e}</option>`).join('')}
+                                    </select>
+                                    <button class="editar-cliente">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            seccionHtml += '</div>';
+            ventasContainer.innerHTML = seccionHtml;
+
+            // Añadir event listeners para mover y editar clientes
+            document.querySelectorAll('.mover-cliente').forEach(select => {
+                select.addEventListener('change', function() {
+                    if (this.value) {
+                        const clienteItem = this.closest('.cliente-item');
+                        const nuevoEstado = document.querySelector(`.estado-venta[data-estado="${this.value}"] .clientes-lista`);
+                        if (nuevoEstado) {
+                            nuevoEstado.appendChild(clienteItem);
+                            this.value = '';  // Resetear el select
+                            calcularComisionesYObjetivo();
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('.editar-cliente').forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Editando cliente...');
+                    // Aquí iría la lógica para abrir un formulario de edición
+                });
+            });
+
+            calcularComisionesYObjetivo();
+        }
+
+        function calcularComisionesYObjetivo() {
+            totalComisiones = 0;
+            objetivoRestante = objetivoInicial;
+
+            const clientesCerrados = document.querySelector('.estado-venta[data-estado="Clientes cerrados"]');
+            if (clientesCerrados) {
+                clientesCerrados.querySelectorAll('.cliente-item').forEach(cliente => {
+                    const comisionText = cliente.querySelector('span:last-child').textContent;
+                    const comision = parseInt(comisionText.replace('€', '').trim());
+                    if (!isNaN(comision)) {
+                        totalComisiones += comision;
+                        objetivoRestante = Math.max(0, objetivoRestante - comision);
+                    }
+                });
+            }
+
+            actualizarResumenMes();
+        }
+
+        function actualizarResumenMes() {
+            document.getElementById('total-comisiones').textContent = totalComisiones.toLocaleString() + '€';
+            document.getElementById('objetivo-restante').textContent = objetivoRestante.toLocaleString() + '€';
+            
+            const porcentajeCompletado = ((objetivoInicial - objetivoRestante) / objetivoInicial) * 100;
+            document.querySelector('.objetivo-progreso').style.width = porcentajeCompletado + '%';
+        }
+
+        mesSeleccion.addEventListener('change', () => {
+            mostrarSeccion(intereses[0]);
+            calcularComisionesYObjetivo();
+        });
+
+        descargarExcel.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Descargando Excel de ejemplo...');
+            // Aquí iría la lógica real para generar y descargar el Excel
+        });
+
+        uploadExcel.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                alert(`Archivo Excel "${file.name}" subido correctamente.`);
+                // Aquí iría la lógica para procesar el archivo Excel
+                // y actualizar las ventas del mes
+                calcularComisionesYObjetivo();
+            }
+        });
+
+        // Mostrar la primera sección por defecto
+        mostrarSeccion(intereses[0]);
+    });
+    </script>
+</body>
+</html>

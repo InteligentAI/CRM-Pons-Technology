@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ponstechnology - Ideas</title>
+    <style>
+        :root {
+            --naranja: #FF6600;
+            --negro: #000000;
+            --verde-manzana: #8DB600;
+            --gris-oscuro: #333333;
+            --gris-claro: #f4f4f4;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--gris-claro);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: var(--negro);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            background-color: var(--naranja);
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            display: block;
+        }
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--verde-manzana);
+        }
+        .main-container {
+            display: flex;
+            flex-grow: 1;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: var(--gris-oscuro);
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+        }
+        .category-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .category-list li {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .category-list li:hover, .category-list li.active {
+            background-color: var(--naranja);
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .ideas-board {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .idea-note {
+            width: 100%;
+            min-height: 100px;
+            background-color: #ffd700;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        .idea-note textarea {
+            flex-grow: 1;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            font-family: inherit;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .idea-note .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .idea-note button, .add-idea, .add-category {
+            background-color: var(--naranja);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .idea-note.completed {
+            background-color: #d3d3d3;
+            opacity: 0.7;
+        }
+        .idea-note.completed textarea {
+            text-decoration: line-through;
+        }
+        .add-idea, .add-category {
+            margin-top: 10px;
+            background-color: var(--verde-manzana);
+        }
+        .category-select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .file-input {
+            display: none;
+        }
+        .file-label {
+            background-color: var(--verde-manzana);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .file-name {
+            margin-left: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CRM Ponstechnology</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="formulario-clientes.html">Formulario de Clientes</a></li>
+            <li><a href="lista-contactos.html">Lista de Contactos</a></li>
+            <li><a href="ventas-del-mes.html">Ventas del Mes</a></li>
+            <li><a href="tareas-semana.html">Tareas de la Semana</a></li>
+            <li><a href="#" class="active">Ideas</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <h2>Categorías</h2>
+            <ul class="category-list" id="category-list">
+                <!-- Las categorías se generarán aquí dinámicamente -->
+            </ul>
+            <button class="add-category" id="add-category">Añadir Categoría</button>
+        </div>
+
+        <div class="main-content">
+            <div class="search-bar">
+                <input type="text" id="search-ideas" placeholder="Buscar ideas...">
+            </div>
+
+            <button class="add-idea" id="add-idea">Añadir Nueva Idea</button>
+            <div class="ideas-board" id="ideas-container">
+                <!-- Las ideas se generarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addIdeaBtn = document.getElementById('add-idea');
+        const addCategoryBtn = document.getElementById('add-category');
+        const ideasContainer = document.getElementById('ideas-container');
+        const categoryList = document.getElementById('category-list');
+        const searchInput = document.getElementById('search-ideas');
+
+        let ideas = [];
+        let categories = ['General', 'Energía', 'Finanzas', 'Formación', 'Inteligencia Artificial'];
+        let currentCategory = 'General';
+        let ideaCounter = 0;
+
+        function createIdeaNote(idea) {
+            const noteElement = document.createElement('div');
+            noteElement.className = `idea-note ${idea.completed ? 'completed' : ''}`;
+            noteElement.innerHTML = `
+                <textarea placeholder="Escribe tu idea aquí...">${idea.text}</textarea>
+                <div class="actions">
+                    <select class="category-select">
+                        ${categories.map(cat => `<option value="${cat}" ${idea.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+                    </select>
+                    <label class="file-label" for="file-${idea.id}">Adjuntar archivo</label>
+                    <input type="file" id="file-${idea.id}" class="file-input" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.docx">
+                    <span class="file-name">${idea.fileName || ''}</span>
+                    <div>
+                        <button class="complete-idea">${idea.completed ? 'Desmarcar' : 'Completar'}</button>
+                        <button class="delete-idea">Eliminar</button>
+                    </div>
+                </div>
+            `;
+            return noteElement;
+        }
+
+        function updateCategorySelects() {
+            document.querySelectorAll('.category-select').forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = categories.map(cat => `<option value="${cat}" ${currentValue === cat ? 'selected' : ''}>${cat}</option>`).join('');
+            });
+        }
+
+        function renderIdeas() {
+            ideasContainer.innerHTML = '';
+            ideas.filter(idea => idea.category === currentCategory || currentCategory === 'Todas')
+                 .forEach((idea, index) => {
+                    const noteElement = createIdeaNote(idea);
+                    noteElement.dataset.index = index;
+                    ideasContainer.appendChild(noteElement);
+                 });
+        }
+
+        function renderCategories() {
+            categoryList.innerHTML = '<li data-category="Todas">Todas</li>' + 
+                categories.map(cat => `<li data-category="${cat}">${cat}</li>`).join('');
+            
+            categoryList.querySelectorAll('li').forEach(li => {
+                li.addEventListener('click', function() {
+                    currentCategory = this.dataset.category;
+                    categoryList.querySelectorAll('li').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                    renderIdeas();
+                });
+            });
+            updateCategorySelects();
+        }
+
+        addIdeaBtn.addEventListener('click', function() {
+            const newIdea = { id: `idea-${ideaCounter++}`, text: '', category: currentCategory, completed: false };
+            ideas.push(newIdea);
+            renderIdeas();
+        });
+
+        addCategoryBtn.addEventListener('click', function() {
+            const newCategory = prompt("Introduce el nombre de la nueva categoría:");
+            if (newCategory && !categories.includes(newCategory)) {
+                categories.push(newCategory);
+                renderCategories();
+                renderIdeas();
+            }
+        });
+
+        ideasContainer.addEventListener('input', function(e) {
+            if (e.target.tagName === 'TEXTAREA') {
+                const index = e.target.closest('.idea-note').dataset.index;
+                ideas[index].text = e.target.value;
+            }
+        });
+
+        ideasContainer.addEventListener('change', function(e) {
+            const noteElement = e.target.closest('.idea-note');
+            const index = noteElement.dataset.index;
+
+            if (e.target.classList.contains('category-select')) {
+                ideas[index].category = e.target.value;
+            } else if (e.target.classList.contains('file-input')) {
+                const file = e.target.files[0];
+                if (file) {
+                    ideas[index].fileName = file.name;
+                    ideas[index].file = file;
+                    noteElement.querySelector('.file-name').textContent = file.name;
+                }
+            }
+        });
+
+        ideasContainer.addEventListener('click', function(e) {
+            const noteElement = e.target.closest('.idea-note');
+            const index = noteElement.dataset.index;
+
+            if (e.target.classList.contains('complete-idea')) {
+                ideas[index].completed = !ideas[index].completed;
+                noteElement.classList.toggle('completed');
+                e.target.textContent = ideas[index].completed ? 'Desmarcar' : 'Completar';
+            } else if (e.target.classList.contains('delete-idea')) {
+                ideas.splice(index, 1);
+                renderIdeas();
+            }
+        });
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            document.querySelectorAll('.idea-note').forEach(noteElement => {
+                const idea = ideas[noteElement.dataset.index];
+                const visible = idea.text.toLowerCase().includes(searchTerm) || 
+                                idea.category.toLowerCase().includes(searchTerm);
+                noteElement.style.display = visible ? 'block' : 'none';
+            });
+        });
+
+        // Inicialización
+        renderCategories();
+        categoryList.querySelector('li').click(); // Seleccionar 'Todas' por defecto
+    });
+    </script>
+</body>
+</html>

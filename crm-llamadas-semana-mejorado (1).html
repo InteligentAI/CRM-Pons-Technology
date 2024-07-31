@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Ponstechnology - Llamadas de la Semana</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 15px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .nav {
+            background-color: #FF6600;
+            padding: 10px 0;
+            text-align: center;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: inline-block;
+        }
+        .nav a.active {
+            background-color: #99CC00;
+        }
+        .content {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .top-button {
+            background-color: #FF6600;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        #listSection, #formSection {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .excel-section {
+            margin-top: 30px;
+            text-align: center;
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .excel-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #fileInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CRM Ponstechnology</h1>
+    </div>
+    <div class="nav">
+        <a href="#">Formulario de Clientes</a>
+        <a href="#">Lista de Contactos</a>
+        <a href="#" class="active">Llamadas de la Semana</a>
+        <a href="#">Ventas del Mes</a>
+        <a href="#">Tareas de la Semana</a>
+        <a href="#">Ideas</a>
+    </div>
+    <div class="content">
+        <button class="top-button" onclick="toggleView()">Agregar Llamada</button>
+        <div id="listSection">
+            <h2>Llamadas Pendientes</h2>
+            <table id="llamadasTable">
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Contacto</th>
+                        <th>Teléfono 1</th>
+                        <th>Fecha</th>
+                        <th>Etiqueta</th>
+                        <th>Objetivos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas se agregarán dinámicamente -->
+                </tbody>
+            </table>
+            <div class="excel-section">
+                <h3>Gestión de Datos Excel</h3>
+                <button class="excel-button" onclick="descargarListadoEjemplo()">Descargar Listado de ejemplo</button>
+                <input type="file" id="fileInput" accept=".csv">
+                <button class="excel-button" onclick="document.getElementById('fileInput').click()">Subir Listado</button>
+            </div>
+        </div>
+        <div id="formSection" style="display: none;">
+            <h2>Agregar Nueva Llamada</h2>
+            <form id="llamadaForm">
+                <div class="form-group">
+                    <label for="empresa">Empresa:</label>
+                    <input type="text" id="empresa" name="empresa" required>
+                </div>
+                <div class="form-group">
+                    <label for="contacto">Persona de Contacto:</label>
+                    <input type="text" id="contacto" name="contacto" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono1">Teléfono 1:</label>
+                    <input type="tel" id="telefono1" name="telefono1" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono2">Teléfono 2:</label>
+                    <input type="tel" id="telefono2" name="telefono2">
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                <div class="form-group">
+                    <label for="etiqueta">Etiqueta:</label>
+                    <select id="etiqueta" name="etiqueta" required>
+                        <option value="">Seleccione una etiqueta</option>
+                        <option value="Energía">Energía</option>
+                        <option value="Placas Solares">Placas Solares</option>
+                        <option value="Telecomunicaciones">Telecomunicaciones</option>
+                        <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="objetivos">Objetivos:</label>
+                    <select id="objetivos" name="objetivos" required>
+                        <option value="">Seleccione un objetivo</option>
+                        <option value="Concertar Cita">Concertar Cita</option>
+                        <option value="Cerrar Venta">Cerrar Venta</option>
+                        <option value="Seguimiento">Seguimiento</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+                </div>
+                <button type="submit" class="top-button">Guardar Llamada</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let llamadas = [
+            { empresa: "Empresa A", contacto: "Juan Pérez", telefono1: "123456789", telefono2: "", fecha: "2023-05-15", etiqueta: "Energía", objetivos: "Concertar Cita", descripcion: "Llamada de seguimiento" },
+            { empresa: "Empresa B", contacto: "María López", telefono1: "987654321", telefono2: "123123123", fecha: "2023-05-16", etiqueta: "Placas Solares", objetivos: "Cerrar Venta", descripcion: "Cliente interesado" }
+        ];
+
+        function toggleView() {
+            const listSection = document.getElementById('listSection');
+            const formSection = document.getElementById('formSection');
+            const topButton = document.querySelector('.top-button');
+
+            if (listSection.style.display !== 'none') {
+                listSection.style.display = 'none';
+                formSection.style.display = 'block';
+                topButton.textContent = 'Ver Listado';
+            } else {
+                listSection.style.display = 'block';
+                formSection.style.display = 'none';
+                topButton.textContent = 'Agregar Llamada';
+            }
+        }
+
+        function loadLlamadas() {
+            const tbody = document.querySelector("#llamadasTable tbody");
+            tbody.innerHTML = "";
+            llamadas.forEach(llamada => {
+                const row = tbody.insertRow();
+                ['empresa', 'contacto', 'telefono1', 'fecha', 'etiqueta', 'objetivos'].forEach(key => {
+                    const cell = row.insertCell();
+                    cell.textContent = llamada[key];
+                });
+            });
+        }
+
+        function descargarListadoEjemplo() {
+            const headers = ["Empresa", "Contacto", "Teléfono 1", "Teléfono 2", "Fecha", "Etiqueta", "Objetivos", "Descripción"];
+            let csvContent = headers.join(",") + "\n";
+            csvContent += "Empresa Ejemplo,Contacto Ejemplo,123456789,987654321,2023-05-20,Energía,Concertar Cita,Descripción de ejemplo";
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "listado_ejemplo.csv");
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    const lines = content.split('\n');
+                    const headers = lines[0].split(',');
+                    
+                    llamadas = lines.slice(1).map(line => {
+                        const values = line.split(',');
+                        return headers.reduce((obj, header, index) => {
+                            obj[header.toLowerCase()] = values[index];
+                            return obj;
+                        }, {});
+                    });
+                    
+                    loadLlamadas();
+                    alert("Listado importado con éxito");
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        document.getElementById('llamadaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nuevaLlamada = {
+                empresa: document.getElementById('empresa').value,
+                contacto: document.getElementById('contacto').value,
+                telefono1: document.getElementById('telefono1').value,
+                telefono2: document.getElementById('telefono2').value,
+                fecha: document.getElementById('fecha').value,
+                etiqueta: document.getElementById('etiqueta').value,
+                objetivos: document.getElementById('objetivos').value,
+                descripcion: document.getElementById('descripcion').value
+            };
+            llamadas.push(nuevaLlamada);
+            loadLlamadas();
+            toggleView();
+            this.reset();
+        });
+
+        window.onload = loadLlamadas;
+    </script>
+</body>
+</html>
